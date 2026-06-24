@@ -1,0 +1,43 @@
+local lyrics = {
+	"Spooky Scary Skeletons",
+	"Send shivers down your spine",
+	"Shrieking skulls will shock your soul",
+	"Seal your doom tonight",
+	"Spooky Scary Skeletons",
+	"Speak with such a screech",
+	"You'll shake and shudder in surprise",
+	"When you hear these zombies shriek",
+	"We're so sorry skeletons",
+	"You're so misunderstood",
+	"You only want to socialize",
+	"But I don't think we should",
+	"Cause spooky scary skeletons",
+	"Shout startling shrilly screams",
+	"They'll sneak from their sarcophagus",
+	"And just won't leave you be."
+}
+
+local function sendMessage(message)
+	local chatService = game:GetService("TextChatService")
+	local replicatedStorage = game:GetService("ReplicatedStorage")
+
+	if chatService and chatService.ChatVersion == Enum.ChatVersion.TextChatService then
+		local chatEvent = chatService:FindFirstChild("TextChannels")
+		if chatEvent and chatEvent.RBXGeneral then
+			chatEvent.RBXGeneral:SendAsync(message)
+		end
+	else
+		local chatEvent = replicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
+		if chatEvent and chatEvent:FindFirstChild("SayMessageRequest") then
+			chatEvent.SayMessageRequest:FireServer(message, "All")
+		end
+	end
+end
+
+	local function singLyrics()
+		for _, lyric in ipairs(lyrics) do
+			sendMessage(lyric)
+			wait(2.5)
+		end
+	end
+	singLyrics()
